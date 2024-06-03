@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.transferTons = exports.getBalance = exports.getAccount = exports.createAccount = void 0;
+exports.getTokenBalance = exports.transferTons = exports.getWalletSecretKeyFromMnemonic = exports.getWalletFromAddress = exports.getBalance = exports.getAccount = exports.createAccount = void 0;
 var ton_1 = require("ton");
 var ton_crypto_1 = require("ton-crypto");
 var client = new ton_1.TonClient({
@@ -116,10 +116,44 @@ var getBalance = function (wallet) { return __awaiter(void 0, void 0, void 0, fu
     });
 }); };
 exports.getBalance = getBalance;
+var getWalletFromAddress = function (address) { return __awaiter(void 0, void 0, void 0, function () {
+    var wallet;
+    return __generator(this, function (_a) {
+        try {
+            wallet = ton_1.WalletContractV4.create({ workchain: 0, publicKey: Buffer.from(address, 'hex') });
+            return [2 /*return*/, wallet];
+        }
+        catch (e) {
+            console.log(e);
+        }
+        return [2 /*return*/];
+    });
+}); };
+exports.getWalletFromAddress = getWalletFromAddress;
+var getWalletSecretKeyFromMnemonic = function (mnemonic) { return __awaiter(void 0, void 0, void 0, function () {
+    var keyPair, e_4;
+    var _a, _b, _c;
+    return __generator(this, function (_d) {
+        switch (_d.label) {
+            case 0:
+                _d.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, (0, ton_crypto_1.mnemonicToPrivateKey)(mnemonic)];
+            case 1:
+                keyPair = _d.sent();
+                return [2 /*return*/, (_c = (_b = (_a = keyPair.secretKey) === null || _a === void 0 ? void 0 : _a.toJSON()) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.toString()];
+            case 2:
+                e_4 = _d.sent();
+                console.log(e_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getWalletSecretKeyFromMnemonic = getWalletSecretKeyFromMnemonic;
 var transferTons = function (wallet, secretKey, to, amount, message) {
     if (message === void 0) { message = ""; }
     return __awaiter(void 0, void 0, void 0, function () {
-        var contract, secretKeyArray, keyPair, seqno, result, sendResult, e_4;
+        var contract, secretKeyArray, keyPair, seqno, result, sendResult, e_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -129,35 +163,29 @@ var transferTons = function (wallet, secretKey, to, amount, message) {
                     return [4 /*yield*/, (0, ton_crypto_1.keyPairFromSecretKey)(Buffer.from(secretKeyArray))];
                 case 1:
                     keyPair = _a.sent();
-                    debugger;
                     return [4 /*yield*/, contract.getSeqno()];
                 case 2:
                     seqno = _a.sent();
-                    debugger;
                     return [4 /*yield*/, contract.createTransfer({
                             seqno: seqno,
                             messages: [(0, ton_1.internal)({
                                     to: to,
-                                    // value: amount?.toString(),
-                                    value: '1.5',
+                                    value: amount === null || amount === void 0 ? void 0 : amount.toString(),
                                     body: message
                                 })],
                             secretKey: keyPair.secretKey
                         })];
                 case 3:
                     result = _a.sent();
-                    debugger;
                     console.log('transfer result', result);
-                    debugger;
                     return [4 /*yield*/, contract.send(result)];
                 case 4:
                     sendResult = _a.sent();
-                    debugger;
                     console.log('send result', sendResult);
                     return [2 /*return*/, sendResult];
                 case 5:
-                    e_4 = _a.sent();
-                    console.log(e_4);
+                    e_5 = _a.sent();
+                    console.log(e_5);
                     return [3 /*break*/, 6];
                 case 6: return [2 /*return*/];
             }
@@ -165,31 +193,44 @@ var transferTons = function (wallet, secretKey, to, amount, message) {
     });
 };
 exports.transferTons = transferTons;
-// const wallet = createAccount();
-(function () { return __awaiter(void 0, void 0, void 0, function () {
-    var secretKey, wallet, balance, receiverAddress, result, newBalance;
+var getTokenBalance = function (address, tokenAddress) { return __awaiter(void 0, void 0, void 0, function () {
+    var toncenter, data, e_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                secretKey = '145,249,57,254,181,44,96,88,10,78,200,174,107,46,35,39,198,19,101,117,194,59,145,223,48,64,171,218,39,87,245,58,112,176,23,150,113,232,99,116,185,127,78,6,35,28,165,223,211,128,147,160,179,24,89,218,122,155,63,98,136,222,30,14';
-                return [4 /*yield*/, (0, exports.getAccount)(secretKey)];
+                _a.trys.push([0, 2, , 3]);
+                toncenter = new ton_1.TonClient({
+                    endpoint: 'https://testnet.toncenter.com/api/v2/jsonRPC'
+                });
+                debugger;
+                return [4 /*yield*/, toncenter.getContractState(ton_1.Address.parse(tokenAddress))];
             case 1:
-                wallet = _a.sent();
-                return [4 /*yield*/, (0, exports.getBalance)(wallet)];
+                data = _a.sent();
+                debugger;
+                debugger;
+                return [3 /*break*/, 3];
             case 2:
-                balance = _a.sent();
-                console.log('balance', balance);
-                receiverAddress = "EQCD39VS5jcptHL8vMjEXrzGaRcCVYto7HUn4bpAOg8xqB2N";
+                e_6 = _a.sent();
+                console.log(e_6);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); };
+exports.getTokenBalance = getTokenBalance;
+// const wallet = createAccount();
+(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var tokenAddress, userAddress, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                tokenAddress = "EQBNXnmozSrMWSaBI2x247OSfexFJnbT_WkLRqb7Nx4mqiN1";
+                userAddress = "EQAeCIcNxWGLUSjU7gyUZkR6RExnDQknpggyUbDvGHDMBUET";
+                // debugger
                 debugger;
-                return [4 /*yield*/, (0, exports.transferTons)(wallet, secretKey, receiverAddress, 1, "Hello world")];
-            case 3:
-                result = _a.sent();
-                debugger;
-                console.log('transfer result', result);
-                return [4 /*yield*/, (0, exports.getBalance)(wallet)];
-            case 4:
-                newBalance = _a.sent();
-                console.log('new balance', newBalance);
+                return [4 /*yield*/, (0, exports.getTokenBalance)(userAddress, tokenAddress)];
+            case 1:
+                data = _a.sent();
                 debugger;
                 return [2 /*return*/];
         }

@@ -38,4 +38,20 @@ const createAccount = async () => {
     }
 }
 
-createAccount();
+export const isValidTonAddress = (address: string) => {
+    try {
+        debugger
+        const data = new Tonweb.Address(address);
+        debugger
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+// createAccount();
+
+const address = "EQAoOK0KUf9fTnnLywTpLfvRvxkt6iIMVyCu0_Nm_nvDzp";
+
+console.log(isValidTonAddress(address)); // true
+

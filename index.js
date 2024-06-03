@@ -32,6 +32,8 @@ var __awaiter =
       step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
   };
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.isValidTonAddress = void 0;
 const Tonweb = require("tonweb");
 const { randomBytes } = require("crypto");
 const rpc = "https://testnet.toncenter.com/api/v2/jsonRPC";
@@ -69,6 +71,18 @@ const createAccount = () =>
       console.log(e);
     }
   });
-createAccount();
+const isValidTonAddress = (address) => {
+  try {
+    debugger;
+    const data = new Tonweb.Address(address);
+    debugger;
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
 
-export const getCoinBalance = async (address, coinAddress) => {};
+exports.isValidTonAddress = isValidTonAddress;
+// createAccount();
+const address = "EQAoOK0KUf9fTnnLywTpLfvRvxkt6iIMVyCu0_Nm_nvDzp";
+console.log((0, exports.isValidTonAddress)(address)); // true
