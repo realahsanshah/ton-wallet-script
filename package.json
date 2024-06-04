@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tegro/ton3-client": "^0.0.17",
     "ton": "^13.9.0",
     "ton-crypto": "^3.2.0",
     "tonweb": "^0.0.66",
