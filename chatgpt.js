@@ -37,49 +37,71 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.getTokenName = void 0;
-var _a = require('ton'), TonClient = _a.TonClient, Address = _a.Address;
-// async function getTokenBalance(address: string, tokenContract: string) {
-//     const client = new TonClient({
-//         endpoint: 'https://testnet.toncenter.com/api/v2/jsonRPC',
-//     });
-//     debugger
-//     try {
-//         const contractAddress = Address.parse(tokenContract);
-//         const accountAddress = Address.parse(address);
-//         debugger
-//         // Fetch account info
-//         // const accountInfo = await client.getAccount(accountAddress);
-//         // if (accountInfo.state !== 'active') {
-//         //     console.log('Account is not active.');
-//         //     return;
-//         // }
-//         debugger
-//         // Fetch token balance from the contract
-//         const response = await client.callGetMethod(contractAddress, 'get_balance', [
-//             { type: 'slice', value: accountAddress.toString() },
-//         ]);
-//         debugger
-//         const balance = response.stack[0][1].toString();
-//         console.log(`Balance: ${balance} USDT`);
-//     } catch (error: any) {
-//         console.error(`Error fetching balance: ${error.message}`);
-//     } finally {
-//         client.close();
-//     }
-// }
+// const { Address } = require('ton');
+var ton3_client_1 = require("@tegro/ton3-client");
+var ton3_core_1 = require("ton3-core");
+var dist_1 = require("@tegro/ton3-client/node_modules/ton3-core/dist");
+function getTokenBalance(address, tokenContract) {
+    return __awaiter(this, void 0, void 0, function () {
+        var tonClient, contractAddress, accountAddress, jettonWallet, content, deployed, balance, _a, error_1;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    tonClient = new ton3_client_1.TonClient({ endpoint: 'https://testnet.toncenter.com/api/v2/jsonRPC' });
+                    debugger;
+                    _b.label = 1;
+                case 1:
+                    _b.trys.push([1, 8, , 9]);
+                    contractAddress = new dist_1.Address(tokenContract);
+                    accountAddress = new dist_1.Address(address);
+                    debugger;
+                    return [4 /*yield*/, tonClient.Jetton.getWalletAddress(contractAddress, accountAddress)];
+                case 2:
+                    jettonWallet = _b.sent();
+                    debugger;
+                    return [4 /*yield*/, tonClient.Jetton.getData(contractAddress)];
+                case 3:
+                    content = (_b.sent()).content;
+                    debugger;
+                    return [4 /*yield*/, tonClient.isContractDeployed(jettonWallet)];
+                case 4:
+                    deployed = _b.sent();
+                    debugger;
+                    if (!deployed) return [3 /*break*/, 6];
+                    return [4 /*yield*/, tonClient.Jetton.getBalance(jettonWallet)];
+                case 5:
+                    _a = _b.sent();
+                    return [3 /*break*/, 7];
+                case 6:
+                    _a = new ton3_core_1.Coins(0, { decimals: 9 });
+                    _b.label = 7;
+                case 7:
+                    balance = _a;
+                    debugger;
+                    console.log("Balance: ".concat(balance, " USDT"));
+                    return [3 /*break*/, 9];
+                case 8:
+                    error_1 = _b.sent();
+                    console.error("Error fetching balance: ".concat(error_1.message));
+                    return [3 /*break*/, 9];
+                case 9: return [2 /*return*/];
+            }
+        });
+    });
+}
 var getTokenName = function (tokenContract) { return __awaiter(void 0, void 0, void 0, function () {
-    var client, contractAddress, response, name_1, error_1;
+    var client, contractAddress, response, name_1, error_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                client = new TonClient({
+                client = new ton3_client_1.TonClient({
                     endpoint: 'https://testnet.toncenter.com/api/v2/jsonRPC'
                 });
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 3, 4, 5]);
                 debugger;
-                contractAddress = Address.parse(tokenContract);
+                contractAddress = dist_1.Address.parse(tokenContract);
                 debugger;
                 return [4 /*yield*/, client.callGetMethod(contractAddress, 'name', [])];
             case 2:
@@ -90,8 +112,8 @@ var getTokenName = function (tokenContract) { return __awaiter(void 0, void 0, v
                 console.log("Token Name: ".concat(name_1));
                 return [3 /*break*/, 5];
             case 3:
-                error_1 = _a.sent();
-                console.error("Error fetching token name: ".concat(error_1.message));
+                error_2 = _a.sent();
+                console.error("Error fetching token name: ".concat(error_2.message));
                 return [3 /*break*/, 5];
             case 4:
                 client.close();
@@ -105,5 +127,5 @@ exports.getTokenName = getTokenName;
 var address = 'EQAeCIcNxWGLUSjU7gyUZkR6RExnDQknpggyUbDvGHDMBUET';
 var tokenContract = "EQBNXnmozSrMWSaBI2x247OSfexFJnbT_WkLRqb7Nx4mqiN1";
 // Get the balance
-// getTokenBalance(address, tokenContract);
-(0, exports.getTokenName)(tokenContract);
+getTokenBalance(address, tokenContract);
+// getTokenName(tokenContract)

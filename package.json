@@ -13,7 +13,10 @@
   "dependencies": {
     "@tegro/ton3-client": "^0.0.17",
     "ton": "^13.9.0",
+    "ton-client-node-js": "^0.28.0",
     "ton-crypto": "^3.2.0",
+    "ton-wallet-utils": "^2.79.0",
+    "ton3-core": "^1.0.1",
     "tonweb": "^0.0.66",
     "typescript": "^5.4.5"
   }
