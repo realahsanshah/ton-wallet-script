@@ -114,6 +114,19 @@ export const transferTons = async (wallet: WalletContractV4, secretKey: string, 
     }
 }
 
+export const getJettonBalance = async (walletAddress: string) => {
+    try {
+        // const balance = await tonweb.getBalance(address, tokenAddress);
+
+
+
+
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
 export const transferJetton = async (wallet: WalletContractV4, secretKey: string, to: string, amount: number, tokenAddress: string, message = "") => {
     try {
         const client = new TonClient({
@@ -148,28 +161,28 @@ const JETTON_MINTER_ADDRESS = "EQBNXnmozSrMWSaBI2x247OSfexFJnbT_WkLRqb7Nx4mqiN1"
 const JETTON_WALLET_ADDRESS = "EQCKAYNR_4521mPf4-m1UiMqO63l9WEk0ZI_HzPypnxOHkFJ";
 
 
-export const getJettonContract = async (tokenAddress: string, tokenOwnerAddress: string) => {
-    debugger
-    const JETTON_MINTER_CODE = Cell.fromBoc(Buffer.from(TON_TOKEN_HEX?.hex, "hex")); // code cell from build output
-    debugger
-    const JETTON_WALLET_CODE = Cell.fromBoc(Buffer.from(TON_WALLET_HEX?.hex, "hex")); // code cell from build output
-    debugger
-    const address = Address.parse(tokenAddress);
+// export const getJettonContract = async (tokenAddress: string, tokenOwnerAddress: string) => {
+//     debugger
+//     const JETTON_MINTER_CODE = Cell.fromBoc(Buffer.from(TON_TOKEN_HEX?.hex, "hex")); // code cell from build output
+//     debugger
+//     const JETTON_WALLET_CODE = Cell.fromBoc(Buffer.from(TON_WALLET_HEX?.hex, "hex")); // code cell from build output
+//     debugger
+//     const address = Address.parse(tokenAddress);
 
-    const minterAddress = Address.parse(JETTON_MINTER_ADDRESS);
-    const walletAddress = Address.parse(JETTON_WALLET_ADDRESS);
-    debugger
-    const contract = await JettonWallet.create(
-        JETTON_WALLET_CODE,
-        beginCell()
-            .storeCoins(0)
-            .storeAddress(minterAddress)
-            .storeAddress(walletAddress)
-            .storeRef(JETTON_WALLET_CODE)
-            .endCell()
-    )
-    debugger
-}
+//     const minterAddress = Address.parse(JETTON_MINTER_ADDRESS);
+//     const walletAddress = Address.parse(JETTON_WALLET_ADDRESS);
+//     debugger
+//     const contract = await JettonWallet.create(
+//         JETTON_WALLET_CODE,
+//         beginCell()
+//             .storeCoins(0)
+//             .storeAddress(minterAddress)
+//             .storeAddress(walletAddress)
+//             .storeRef(JETTON_WALLET_CODE)
+//             .endCell()
+//     )
+//     debugger
+// }
 
 
 export const getTokenBalance = async (address: string, tokenAddress: string) => {
@@ -302,4 +315,7 @@ export const getTokenBalance = async (address: string, tokenAddress: string) => 
     // await getJettonContract(tokenAddress, "");
     // const secretKey = "159,25,68,91,70,155,130,104,242,178,123,154,151,60,215,203,158,81,154,125,150,68,113,158,158,254,164,33,56,41,122,180,114,216,56,227,212,167,222,239,153,57,241,228,154,105,154,81,16,183,169,40,201,203,2,226,37,223,163,11,103,184,200,63";
 
+    const tokenBalance = await getJettonBalance(userAddress);
+
+    debugger
 })()
