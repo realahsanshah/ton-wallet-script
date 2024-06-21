@@ -11,8 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-crypto/sha256-js": "^5.2.0",
     "@tegro/ton3-client": "^0.0.17",
-    "ton": "^13.9.0",
+    "@ton/ton": "^13.11.2",
     "ton-client-node-js": "^0.28.0",
     "ton-crypto": "^3.2.0",
     "ton-wallet-utils": "^2.79.0",
