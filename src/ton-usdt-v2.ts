@@ -16,12 +16,14 @@ import { keyPairFromSecretKey } from "ton-crypto";
 import { SampleJetton } from "./output/sample-jetton";
 import { JettonDefaultWallet } from "./output/sample-jetton-default";
 import { buildOnchainMetadata } from "./utils/jetton-helpers";
+require('dotenv').config();
 
 // const rpc = 'https://testnet.toncenter.com/api/v2/jsonRPC';
 const rpc = "https://testnet.tonapi.io/";
 // const rpc = "https://sandbox-v4.tonhubapi.com";
 
-const secretKey = "159,25,68,91,70,155,130,104,242,178,123,154,151,60,215,203,158,81,154,125,150,68,113,158,158,254,164,33,56,41,122,180,114,216,56,227,212,167,222,239,153,57,241,228,154,105,154,81,16,183,169,40,201,203,2,226,37,223,163,11,103,184,200,63";
+const secretKey = process.env.SECRET_KEY || "";
+debugger
 
 const USDT_CONTRACT_ADDRESS = "EQCKAYNR_4521mPf4-m1UiMqO63l9WEk0ZI_HzPypnxOHkFJ";
 
@@ -66,7 +68,7 @@ const getJettonBalance = async (
         // debugger
         // const client = await getClient(rpc);
         // debugger
-        // const keyPair = await keyPairFromSecretKey(Buffer.from(secretKey.split(',').map((x) => parseInt(x))));
+
         // debugger
         // const contractAddressInAddress = Address.parseFriendly(jettonAddress);
         // debugger
@@ -101,6 +103,7 @@ const getJettonBalance = async (
         const rpc = "https://testnet.tonapi.io/";
         debugger
         const client = await getClient(rpc);
+        const keyPair = await keyPairFromSecretKey(Buffer.from(secretKey.split(',').map((x) => parseInt(x))));
         const workchain = 0;
         debugger
         let deploy_wallet = WalletContractV4.create({ workchain: 0, publicKey: keyPair.publicKey });
