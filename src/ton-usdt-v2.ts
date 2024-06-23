@@ -18,8 +18,8 @@ import { JettonDefaultWallet } from "./output/sample-jetton-default";
 import { buildOnchainMetadata } from "./utils/jetton-helpers";
 require('dotenv').config();
 
-// const rpc = 'https://testnet.toncenter.com/api/v2/jsonRPC';
-const rpc = "https://testnet.tonapi.io/";
+const rpc = 'https://testnet.toncenter.com/api/v2/jsonRPC';
+// const rpc = "https://testnet.tonapi.io/";
 // const rpc = "https://sandbox-v4.tonhubapi.com";
 
 const secretKey = process.env.SECRET_KEY || "";
@@ -100,7 +100,7 @@ const getJettonBalance = async (
 
 
         // reference code
-        const rpc = "https://testnet.tonapi.io/";
+        // const rpc = 'https://testnet.toncenter.com/api/v2/jsonRPC';
         debugger
         const client = await getClient(rpc);
         const keyPair = await keyPairFromSecretKey(Buffer.from(secretKey.split(',').map((x) => parseInt(x))));
@@ -112,26 +112,29 @@ const getJettonBalance = async (
         debugger
         // Get deployment wallet balance
         // let balance: bigint = await deploy_address.getBalance();
-        const jettonParams = {
-            name: "Test 123 Best Practice",
-            description: "This is description of Test tact jetton",
-            symbol: "PPPPPPPP",
-            image: "https://cdn.logo.com/hotlink-ok/logo-social.png",
-        };
+        // const jettonParams = {
+        //     name: "Test 123 Best Practice",
+        //     description: "This is description of Test tact jetton",
+        //     symbol: "PPPPPPPP",
+        //     image: "https://cdn.logo.com/hotlink-ok/logo-social.png",
+        // };
         debugger
-        let max_supply = toNano(1234567666666689011); // Set the specific total supply in nano
+        // let max_supply = toNano(1234567666666689011); // Set the specific total supply in nano
         debugger
         // Create content Cell
-        let content = buildOnchainMetadata(jettonParams);
+        // let content = buildOnchainMetadata(jettonParams);
+        // debugger
+        // let init = await SampleJetton.init(deploy_wallet_contract.address, content, max_supply);
+        // debugger
+        // let jetton_minter_contract_address = contractAddress(workchain, init);
+        const jetton_minter_contract_address = Address.parse("EQBNXnmozSrMWSaBI2x247OSfexFJnbT_WkLRqb7Nx4mqiN1");
         debugger
-        let init = await SampleJetton.init(deploy_wallet_contract.address, content, max_supply);
-        debugger
-        let jetton_minter_contract_address = contractAddress(workchain, init);
         console.log("Jetton Master: " + jetton_minter_contract_address);
         debugger
         let contract_ddd = await client.open(SampleJetton.fromAddress(jetton_minter_contract_address));
         debugger
-        let jetton_wallet = await contract_ddd.getGetWalletAddress(deploy_wallet_contract.address);
+        // let jetton_wallet = await contract_ddd.getGetWalletAddress(deploy_wallet_contract.address);
+        let jetton_wallet = await contract_ddd.getGetWalletAddress(Address.parse("EQCKAYNR_4521mPf4-m1UiMqO63l9WEk0ZI_HzPypnxOHkFJ"));
         debugger
         let contract_dataFormat = JettonDefaultWallet.fromAddress(jetton_wallet);
         debugger
