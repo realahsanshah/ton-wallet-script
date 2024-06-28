@@ -114,6 +114,7 @@ export const transferTons = async (wallet: WalletContractV4, secretKey: string, 
     }
 }
 
+
 export const getJettonBalance = async (walletAddress: string) => {
     try {
         // const balance = await tonweb.getBalance(address, tokenAddress);
